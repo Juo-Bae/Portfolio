@@ -1,3 +1,5 @@
+import { projectMediaMap } from "./projectMedia.generated";
+
 const asset = (path) => path;
 
 export const resumeUrl = asset("/media/resume.pdf");
@@ -12,6 +14,25 @@ const atloAppLinks = [
     href: "https://apps.apple.com/kr/app/%EB%94%94%ED%86%A0-%EB%82%98%EB%A5%BC-%EC%9E%88%EB%8A%94-%EA%B7%B8%EB%8C%80%EB%A1%9C-%EC%9D%B4%ED%95%B4%ED%95%98%EB%8A%94-%EC%B9%9C%EA%B5%AC/id6743839550",
   },
 ];
+
+const projectImage = (path, alt, caption) => ({
+  src: asset(path),
+  alt,
+  caption,
+});
+
+const projectMedia = (folder, title) =>
+  (projectMediaMap[folder] ?? []).map((src, index) =>
+    projectImage(src, `${title} 이미지 ${index + 1}`, `${title} 이미지 ${index + 1}`),
+  );
+
+const posebitMedia = projectMedia("posebit", "포즈빗");
+const alarmChairMedia = projectMedia("alarm-chair", "알람체어");
+const infraPatrolMedia = projectMedia("infra-patrol", "InfraPatrol 모니터링 대시보드");
+const iwillAdminMedia = projectMedia("iwill-admin", "아이윌 어드민");
+const iwillChallengeMedia = projectMedia("iwill-challenge", "아이윌 챌린지");
+const dawnPrayerMedia = projectMedia("dawn-prayer", "새벽기도 출석 체크");
+const communityCampaignMedia = projectMedia("community-campaign", "믿음대로 캠페인");
 
 export const profile = {
   name: "배순호",
@@ -30,16 +51,8 @@ export const profile = {
       value: "Juo-Bae",
       href: "https://github.com/Juo-Bae",
     },
-    {
-      label: "GitLab",
-      value: "soonhobae8910",
-      href: "https://gitlab.com/soonhobae8910",
-    },
   ],
-  stats: [
-    { value: "8년+", label: "경력" },
-    { value: "14+", label: "프로젝트" },
-  ],
+  career: "8년+",
 };
 
 export const skills = [
@@ -229,6 +242,7 @@ export const featuredProjects = [
       "PCB 생산·중국 제조 협업·와디즈 펀딩 완료",
     ],
     stack: ["ESP32", "RTOS", "BLE", "Wi-Fi", "AWS IoT", "MQTT", "React Native"],
+    media: posebitMedia,
     links: [
       {
         label: "제품 페이지",
@@ -260,6 +274,7 @@ export const featuredProjects = [
       "와디즈 펀딩 및 제품 출시 완료",
     ],
     stack: ["STM32", "RTOS", "I2C", "USART", "ToF", "Gyroscope"],
+    media: alarmChairMedia,
     links: [
       {
         label: "Wadiz 펀딩",
@@ -286,6 +301,7 @@ export const featuredProjects = [
       "여러 장비 상태를 빠르게 파악할 수 있는 위젯형 모니터링 UI 구성",
     ],
     stack: ["CodeIgniter", "PHP", "MSSQL"],
+    media: infraPatrolMedia,
     links: [],
   },
   {
@@ -307,6 +323,7 @@ export const featuredProjects = [
       "콘텐츠 관리, FCM 푸시, 권한 관리 기능 구현",
     ],
     stack: ["React", "REST API", "FCM", "AWS S3"],
+    media: iwillAdminMedia,
     links: [
       {
         label: "Android",
@@ -337,6 +354,7 @@ export const featuredProjects = [
       "기도시간 누적, 감사 등록, 모아보기, 신고 등 사용자 참여 기능 구현",
     ],
     stack: ["React", "Vite", "JSBridge", "Node.js", "Express", "Firebase", "AWS EC2", "Docker"],
+    media: iwillChallengeMedia,
     links: [],
   },
   {
@@ -446,20 +464,7 @@ export const archiveProjects = [
       "어드민에서는 통계, 비밀번호 찾기, 출석 체크 수정, 오늘의 예배 내용 관리, 이벤트 당첨자 확인 기능을 프론트엔드 중심으로 구현했습니다.",
       "AWS EC2, Docker, CloudFront 기반으로 배포해 실제 운영 규모에서도 안정적으로 사용할 수 있게 정리했습니다.",
     ],
-  },
-  {
-    name: "Vote for Christ",
-    category: "Campaign",
-    platform: "Web",
-    period: "커뮤니티 프로젝트",
-    tech: ["Node.js", "Express", "Firestore", "AWS EC2", "CloudFront"],
-    summary:
-      "기독교인 유권자의 투표 참여를 독려하고, 기도와 금식으로 함께 결단할 수 있도록 만든 참여형 캠페인 웹페이지입니다.",
-    details: [
-      "사용자 결단 등록, 기도 시간 및 금식 횟수 기록, 실시간 집계 API 등 백엔드 기능을 Node.js와 Express로 구현했습니다.",
-      "Firebase Firestore 연동 구조와 데이터 저장 방식을 설계해 참여 데이터와 통계 집계가 안정적으로 동작하도록 구성했습니다.",
-      "AWS EC2 기반 서버 구성, 보안 설정, 도메인 연결, HTTPS 인증서 적용까지 인프라 구축을 맡았습니다.",
-    ],
+    media: dawnPrayerMedia,
   },
   {
     name: "믿음대로 캠페인",
@@ -474,6 +479,7 @@ export const archiveProjects = [
       "Firestore 기반 데이터 구조를 연결해 캠페인 운영에 필요한 저장 흐름을 정리했습니다.",
       "AWS S3, CloudFront, Route 53으로 인프라를 구성해 빠르게 공개하고 운영할 수 있게 만들었습니다.",
     ],
+    media: communityCampaignMedia,
   },
   {
     name: "ciRRus Layer: macOS 개발자 생산성 도구",

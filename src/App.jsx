@@ -1,6 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaAppStoreIos, FaGithub, FaGooglePlay } from "react-icons/fa";
-import { FiChevronDown, FiChevronUp, FiLink, FiX } from "react-icons/fi";
+import {
+  FiChevronDown,
+  FiChevronLeft,
+  FiChevronRight,
+  FiChevronUp,
+  FiLink,
+  FiX,
+} from "react-icons/fi";
 import { LuSquareTerminal } from "react-icons/lu";
 import {
   archiveProjects,
@@ -75,6 +82,10 @@ function App() {
   const [activeProjectType, setActiveProjectType] = useState("전체");
   const [openArchive, setOpenArchive] = useState(null);
   const [openEtc, setOpenEtc] = useState(null);
+  const [openProjectMediaSections, setOpenProjectMediaSections] = useState({});
+  const [openMedia, setOpenMedia] = useState(null);
+  const [activeMediaIndex, setActiveMediaIndex] = useState(0);
+  const mediaTrackRefs = useRef({});
 
   const activePlatforms = projectTypeFilterMap[activeProjectType];
 
@@ -85,6 +96,49 @@ function App() {
   const visibleArchiveProjects = activePlatforms
     ? archiveProjects.filter((project) => activePlatforms.includes(project.platform))
     : archiveProjects;
+
+  const activeMediaItem = openMedia ? openMedia.items[activeMediaIndex] : null;
+
+  const openMediaViewer = (title, media, startIndex = 0) => {
+    setOpenMedia({ title, items: media });
+    setActiveMediaIndex(startIndex);
+  };
+
+  const toggleProjectMediaSection = (projectId) => {
+    setOpenProjectMediaSections((current) => ({
+      ...current,
+      [projectId]: !current[projectId],
+    }));
+  };
+
+  const scrollProjectMedia = (projectId, direction) => {
+    const track = mediaTrackRefs.current[projectId];
+    if (!track) return;
+
+    track.scrollBy({
+      left: track.clientWidth * 0.78 * direction,
+      behavior: "smooth",
+    });
+  };
+
+  const closeMediaViewer = () => {
+    setOpenMedia(null);
+    setActiveMediaIndex(0);
+  };
+
+  const showPrevMedia = () => {
+    if (!openMedia || openMedia.items.length <= 1) return;
+    setActiveMediaIndex((current) =>
+      current === 0 ? openMedia.items.length - 1 : current - 1,
+    );
+  };
+
+  const showNextMedia = () => {
+    if (!openMedia || openMedia.items.length <= 1) return;
+    setActiveMediaIndex((current) =>
+      current === openMedia.items.length - 1 ? 0 : current + 1,
+    );
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -114,6 +168,38 @@ function App() {
       observer.disconnect();
     };
   }, [activeProjectType]);
+
+  useEffect(() => {
+    if (!openMedia) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    const mediaCount = openMedia.items.length;
+
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        closeMediaViewer();
+        return;
+      }
+
+      if (mediaCount <= 1) return;
+
+      if (event.key === "ArrowLeft") {
+        setActiveMediaIndex((current) => (current === 0 ? mediaCount - 1 : current - 1));
+      }
+
+      if (event.key === "ArrowRight") {
+        setActiveMediaIndex((current) => (current === mediaCount - 1 ? 0 : current + 1));
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [openMedia]);
 
   return (
     <>
@@ -145,22 +231,13 @@ function App() {
         {/* ── Hero ── */}
         <section className="hero" id="top">
           <div className="container hero__center">
-            <div data-reveal>
+            <div className="hero__intro" data-reveal>
               <span className="badge">Frontend Engineer · Product & Service</span>
               <p className="hero__identity">
                 {profile.name} · {profile.englishName}
               </p>
               <h1 className="hero__headline">{profile.title}</h1>
               <p className="hero__summary">{profile.summary}</p>
-            </div>
-
-            <div className="stats" data-reveal>
-              {profile.stats.map((s) => (
-                <div className="stat" key={s.label}>
-                  <span className="stat__value">{s.value}</span>
-                  <span className="stat__label">{s.label}</span>
-                </div>
-              ))}
             </div>
 
             <div className="hero__actions" data-reveal>
@@ -199,7 +276,10 @@ function App() {
           <div className="container">
             <header className="section__header" data-reveal>
               <span className="label">Experience</span>
-              <h2>경력</h2>
+              <div className="section__header-row">
+                <h2>경력</h2>
+                <span className="section__metric">{profile.career}</span>
+              </div>
             </header>
 
             <div className="exp-list">
@@ -247,6 +327,7 @@ function App() {
                   onClick={() => {
                     setActiveProjectType(type);
                     setOpenArchive(null);
+                    setOpenProjectMediaSections({});
                   }}
                 >
                   {type}
@@ -355,6 +436,92 @@ function App() {
                         </ul>
                       </div>
                     </div>
+
+                    {project.media?.length ? (
+                      <div
+                        className={`case__gallery${
+                          openProjectMediaSections[project.id] ? " case__gallery--open" : ""
+                        }`}
+                      >
+                        <button
+                          className="case__gallery-toggle"
+                          type="button"
+                          onClick={() => toggleProjectMediaSection(project.id)}
+                          aria-expanded={Boolean(openProjectMediaSections[project.id])}
+                          aria-controls={`project-gallery-${project.id}`}
+                        >
+                          <div className="case__gallery-toggle-copy">
+                            <span className="case__gallery-label">프로젝트 이미지</span>
+                          </div>
+                          <div className="case__gallery-toggle-meta">
+                            {openProjectMediaSections[project.id] ? (
+                              <FiChevronUp aria-hidden="true" />
+                            ) : (
+                              <FiChevronDown aria-hidden="true" />
+                            )}
+                          </div>
+                        </button>
+
+                        {openProjectMediaSections[project.id] ? (
+                          <div
+                            className="case__gallery-panel"
+                            id={`project-gallery-${project.id}`}
+                          >
+                            {project.media.length > 1 ? (
+                              <button
+                                className="case__gallery-nav"
+                                type="button"
+                                onClick={() => scrollProjectMedia(project.id, -1)}
+                                aria-label="이전 썸네일"
+                              >
+                                <FiChevronLeft aria-hidden="true" />
+                              </button>
+                            ) : null}
+
+                            <div
+                              className="case__gallery-track"
+                              ref={(node) => {
+                                if (node) {
+                                  mediaTrackRefs.current[project.id] = node;
+                                } else {
+                                  delete mediaTrackRefs.current[project.id];
+                                }
+                              }}
+                            >
+                              {project.media.map((item, index) => (
+                                <button
+                                  className="case__gallery-thumb"
+                                  key={`${item.src}-${index}`}
+                                  type="button"
+                                  onClick={() =>
+                                    openMediaViewer(project.title, project.media, index)
+                                  }
+                                  aria-label={`${project.title} 이미지 ${index + 1} 보기`}
+                                >
+                                  <img
+                                    className="case__gallery-thumb-image"
+                                    src={item.src}
+                                    alt={item.alt}
+                                    loading="lazy"
+                                  />
+                                </button>
+                              ))}
+                            </div>
+
+                            {project.media.length > 1 ? (
+                              <button
+                                className="case__gallery-nav"
+                                type="button"
+                                onClick={() => scrollProjectMedia(project.id, 1)}
+                                aria-label="다음 썸네일"
+                              >
+                                <FiChevronRight aria-hidden="true" />
+                              </button>
+                            ) : null}
+                          </div>
+                        ) : null}
+                      </div>
+                    ) : null}
 
                     <div className="case__footer">
                       <div className="tags">
@@ -531,6 +698,18 @@ function App() {
                               <li key={detail}>{detail}</li>
                             ))}
                           </ul>
+                          {p.media?.length ? (
+                            <div className="archive-popover__actions">
+                              <button
+                                className="archive-popover__media-button"
+                                type="button"
+                                onClick={() => openMediaViewer(p.name, p.media)}
+                                aria-label={`${p.name} 이미지 보기`}
+                              >
+                                사진 보기
+                              </button>
+                            </div>
+                          ) : null}
                         </div>
                       )}
                     </article>
@@ -589,6 +768,92 @@ function App() {
           </div>
         </section>
       </main>
+
+      {openMedia && activeMediaItem ? (
+        <div
+          className="media-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${openMedia.title} 이미지 보기`}
+          onClick={closeMediaViewer}
+        >
+          <div className="media-modal__dialog" onClick={(event) => event.stopPropagation()}>
+            <div className="media-modal__header">
+              <div className="media-modal__heading">
+                <span className="media-modal__eyebrow">Project Image</span>
+                <strong className="media-modal__title">{openMedia.title}</strong>
+              </div>
+              <button
+                className="media-modal__close"
+                type="button"
+                onClick={closeMediaViewer}
+                aria-label="이미지 닫기"
+              >
+                <FiX aria-hidden="true" />
+              </button>
+            </div>
+
+            <div className="media-modal__viewer">
+              {openMedia.items.length > 1 ? (
+                <button
+                  className="media-modal__nav media-modal__nav--prev"
+                  type="button"
+                  onClick={showPrevMedia}
+                  aria-label="이전 이미지"
+                >
+                  <FiChevronLeft aria-hidden="true" />
+                </button>
+              ) : null}
+
+              <img
+                className="media-modal__image"
+                src={activeMediaItem.src}
+                alt={activeMediaItem.alt}
+              />
+
+              {openMedia.items.length > 1 ? (
+                <button
+                  className="media-modal__nav media-modal__nav--next"
+                  type="button"
+                  onClick={showNextMedia}
+                  aria-label="다음 이미지"
+                >
+                  <FiChevronRight aria-hidden="true" />
+                </button>
+              ) : null}
+            </div>
+
+            <div className="media-modal__footer">
+              <p className="media-modal__caption">
+                {activeMediaItem.caption ?? activeMediaItem.alt}
+              </p>
+              {openMedia.items.length > 1 ? (
+                <div className="media-modal__meta">
+                  <span className="media-modal__counter">
+                    {activeMediaIndex + 1} / {openMedia.items.length}
+                  </span>
+                  <div className="media-modal__thumbs">
+                    {openMedia.items.map((item, index) => (
+                      <button
+                        key={`${item.src}-${index}`}
+                        className={`media-modal__thumb${
+                          index === activeMediaIndex ? " media-modal__thumb--active" : ""
+                        }`}
+                        type="button"
+                        onClick={() => setActiveMediaIndex(index)}
+                        aria-label={`${index + 1}번 이미지 보기`}
+                        aria-pressed={index === activeMediaIndex}
+                      >
+                        <img src={item.src} alt="" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       {/* ── Footer ── */}
       <footer className="footer" id="contact">

@@ -4,9 +4,12 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "predev": "npm run sync:media",
+    "prebuild": "npm run sync:media",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sync:media": "node scripts/generate-project-media-manifest.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",
