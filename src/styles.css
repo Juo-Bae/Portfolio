@@ -31,9 +31,14 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+  background: linear-gradient(180deg, #f8fcff 0%, #f8fcff 42%, #0f1f2d 100%);
 }
 
 body {
+  min-height: 100dvh;
+  overflow-x: hidden;
   font-family: var(--font);
   font-size: 16px;
   line-height: 1.7;
@@ -41,6 +46,11 @@ body {
   background:
     radial-gradient(circle at top left, rgba(15, 120, 220, 0.08), transparent 28%),
     linear-gradient(180deg, #ffffff 0%, #f8fcff 100%);
+}
+
+#root {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 a {
