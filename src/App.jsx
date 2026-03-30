@@ -80,11 +80,13 @@ const projectTypeOptions = Object.keys(projectTypeFilterMap).filter((type) => {
 function App() {
   const [scrolled, setScrolled] = useState(false);
   const [activeProjectType, setActiveProjectType] = useState("전체");
+  const [activeProjectSlide, setActiveProjectSlide] = useState(0);
   const [openArchive, setOpenArchive] = useState(null);
   const [openEtc, setOpenEtc] = useState(null);
   const [openProjectMediaSections, setOpenProjectMediaSections] = useState({});
   const [openMedia, setOpenMedia] = useState(null);
   const [activeMediaIndex, setActiveMediaIndex] = useState(0);
+  const projectListRef = useRef(null);
   const mediaTrackRefs = useRef({});
 
   const activePlatforms = projectTypeFilterMap[activeProjectType];
@@ -98,10 +100,68 @@ function App() {
     : archiveProjects;
 
   const activeMediaItem = openMedia ? openMedia.items[activeMediaIndex] : null;
+  const heroHeadlineLines = profile.title.split("\n").filter(Boolean);
+  const heroSummaryLines = profile.summary.split("\n").filter(Boolean);
+
+  const getProjectCardNodes = () => {
+    const projectList = projectListRef.current;
+    if (!projectList) return [];
+    return [...projectList.querySelectorAll(".case")];
+  };
+
+  const getProjectListScrollPadding = () => {
+    const projectList = projectListRef.current;
+    if (!projectList) return 0;
+
+    const styles = window.getComputedStyle(projectList);
+    return (
+      parseFloat(styles.getPropertyValue("scroll-padding-inline-start")) ||
+      parseFloat(styles.getPropertyValue("scroll-padding-inline")) ||
+      parseFloat(styles.getPropertyValue("scroll-padding-left")) ||
+      parseFloat(styles.getPropertyValue("padding-left")) ||
+      0
+    );
+  };
+
+  const getActiveProjectSlideIndex = () => {
+    const projectList = projectListRef.current;
+    const cards = getProjectCardNodes();
+    if (!projectList || !cards.length) return 0;
+
+    const scrollPadding = getProjectListScrollPadding();
+
+    return cards.reduce((closestIndex, card, index) => {
+      const candidate = Math.max(0, card.offsetLeft - scrollPadding);
+      const closest = Math.max(0, cards[closestIndex].offsetLeft - scrollPadding);
+
+      return Math.abs(projectList.scrollLeft - candidate) <
+        Math.abs(projectList.scrollLeft - closest)
+        ? index
+        : closestIndex;
+    }, 0);
+  };
 
   const openMediaViewer = (title, media, startIndex = 0) => {
     setOpenMedia({ title, items: media });
     setActiveMediaIndex(startIndex);
+  };
+
+  const handleProjectListScroll = () => {
+    setActiveProjectSlide(getActiveProjectSlideIndex());
+  };
+
+  const scrollToProjectSlide = (targetIndex) => {
+    const projectList = projectListRef.current;
+    const cards = getProjectCardNodes();
+    const targetCard = cards[targetIndex];
+    if (!projectList || !targetCard) return;
+
+    const scrollPadding = getProjectListScrollPadding();
+    projectList.scrollTo({
+      left: Math.max(0, targetCard.offsetLeft - scrollPadding),
+      behavior: "smooth",
+    });
+    setActiveProjectSlide(targetIndex);
   };
 
   const toggleProjectMediaSection = (projectId) => {
@@ -167,6 +227,14 @@ function App() {
       window.cancelAnimationFrame(frameId);
       observer.disconnect();
     };
+  }, [activeProjectType]);
+
+  useEffect(() => {
+    const projectList = projectListRef.current;
+    if (!projectList) return;
+
+    projectList.scrollTo({ left: 0, behavior: "auto" });
+    setActiveProjectSlide(0);
   }, [activeProjectType]);
 
   useEffect(() => {
@@ -236,8 +304,20 @@ function App() {
               <p className="hero__identity">
                 {profile.name} · {profile.englishName}
               </p>
-              <h1 className="hero__headline">{profile.title}</h1>
-              <p className="hero__summary">{profile.summary}</p>
+              <h1 className="hero__headline">
+                {heroHeadlineLines.map((line, index) => (
+                  <span className="hero__headline-line" key={`${line}-${index}`}>
+                    {line}
+                  </span>
+                ))}
+              </h1>
+              <p className="hero__summary">
+                {heroSummaryLines.map((line, index) => (
+                  <span className="hero__summary-line" key={`${line}-${index}`}>
+                    {line}
+                  </span>
+                ))}
+              </p>
             </div>
 
             <div className="hero__actions" data-reveal>
@@ -335,7 +415,26 @@ function App() {
               ))}
             </div>
 
-            <div className="case-list">
+            {visibleFeaturedProjects.length > 1 ? (
+              <div className="project-slide-indicator" aria-label="프로젝트 슬라이드 위치">
+                {visibleFeaturedProjects.map((project, index) => (
+                  <button
+                    key={project.id}
+                    className={`project-slide-indicator__dot${
+                      index === activeProjectSlide
+                        ? " project-slide-indicator__dot--active"
+                        : ""
+                    }`}
+                    type="button"
+                    onClick={() => scrollToProjectSlide(index)}
+                    aria-label={`${project.title} 카드로 이동`}
+                    aria-pressed={index === activeProjectSlide}
+                  />
+                ))}
+              </div>
+            ) : null}
+
+            <div className="case-list" ref={projectListRef} onScroll={handleProjectListScroll}>
               {visibleFeaturedProjects.length > 0 ? (
                 visibleFeaturedProjects.map((project, i) => (
                   <article
@@ -750,7 +849,25 @@ function App() {
                     }
                     aria-expanded={openEtc === item.title}
                   >
-                    <span className="etc-card__title">{item.title}</span>
+                    <div className="etc-card__head">
+                      {item.badges?.length ? (
+                        <div className="etc-card__badges">
+                          {item.badges.map((badge) => (
+                            <span
+                              className={`case__company-badge${
+                                companyBadgeClassMap[badge]
+                                  ? ` ${companyBadgeClassMap[badge]}`
+                                  : ""
+                              }`}
+                              key={badge}
+                            >
+                              {badge}
+                            </span>
+                          ))}
+                        </div>
+                      ) : null}
+                      <span className="etc-card__title">{item.title}</span>
+                    </div>
                     {openEtc === item.title ? (
                       <FiChevronUp aria-hidden="true" />
                     ) : (

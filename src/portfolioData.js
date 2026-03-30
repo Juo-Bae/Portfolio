@@ -526,12 +526,13 @@ export const archiveProjects = [
 export const etcHighlights = [
   {
     title: "CES 2026 참여 및 부스 운영",
+    badges: ["아틀로"],
     summary:
       "아틀로 팀으로 CES 2026 전시에 참여해 부스를 운영하고, 방문자 응대와 제품 소개를 진행했습니다.",
   },
   {
     title: "코트디부아르 안드로이드 교육",
     summary:
-      "더멋진세상 NGO와 함께 코트디부아르 대상 Android App Development 15시간 교육 콘텐츠를 개발하고, syllabus·teaching guides·quizzes·assignments 등 교육 문서를 작성했으며, TOT 대상 교사 오프라인 교육까지 수행했습니다.",
+      "더멋진세상 NGO와 협업해 코트디부아르 현지 교육용 15시간 분량의 Android App Development 교육 영상 콘텐츠를 개발하고, syllabus·teaching guides·quizzes·assignments 등 교육 문서를 작성했으며, 교사 대상 TOT 오프라인 교육까지 수행했습니다.",
   },
 ];
