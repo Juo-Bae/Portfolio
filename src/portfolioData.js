@@ -103,6 +103,9 @@ export const skills = [
   {
     title: "배포 / 운영",
     tags: [
+      "Git",
+      "GitHub",
+      "GitHub Actions",
       "fastlane",
       "EAS Update",
       "AWS EC2",
@@ -434,7 +437,15 @@ export const archiveProjects = [
     category: "Web App",
     platform: "Web",
     period: "커뮤니티 프로젝트",
-    tech: ["React", "TypeScript", "Redux Toolkit", "styled-components", "React Router"],
+    tech: [
+      "React",
+      "TypeScript",
+      "Redux Toolkit",
+      "styled-components",
+      "React Router",
+      "GitHub Actions",
+      "AWS S3",
+    ],
     summary:
       "언어와 상황별 카드 문구를 선택해 화면에서 카드를 뒤집어 확인할 수 있게 만든 다국어 카드형 웹앱입니다.",
     details: [
@@ -442,6 +453,7 @@ export const archiveProjects = [
       "styled-components와 Framer Motion을 사용해 카드 확대·뒤집기 인터랙션과 전체 화면 오버레이 전환을 구현했습니다.",
       "한국어, 영어, 일본어, 몽골어, 암하라어, 루마니아어, 튀르키예어, 싱할라어, 포르투갈어, 아랍어까지 다국어 선택 UI를 넣었습니다.",
       "JSON 콘텐츠 구조를 분리해 첫 만남, 직장인, 가정, 시니어, 청소년 등 상황별 카드 문구를 전환할 수 있게 설계했습니다.",
+      "GitHub 중심으로 브랜치 운영과 배포 흐름을 구성하고, dev는 Vercel에서 검수하고 main은 GitHub Actions로 빌드해 S3 운영 환경에 반영되도록 정리했습니다.",
     ],
     links: [
       {
