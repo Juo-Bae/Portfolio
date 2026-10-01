@@ -440,6 +440,40 @@ export const featuredProjects = [
     links: [],
   },
   {
+    id: "cirrus-layer",
+    category: "Desktop Tool",
+    platform: "Desktop",
+    title: "ciRRus Layer: macOS 개발자 생산성 도구",
+    company: "",
+    period: "",
+    challenge:
+      "개발 중 반복적으로 사용하는 JSON 정리·스니펫·컬러 변환·계산·클립보드 기록을 작업 화면에서 바로 호출할 수 있도록 만든 개인 macOS 프로젝트입니다. 로그인 없이 쓰는 로컬 도구에 선택적인 계정 동기화와 업데이트 흐름을 더했습니다.",
+    decision: [
+      "Electron·React·TypeScript로 트레이·전역 단축키·항상 위 창을 연결하고, 다섯 가지 유틸리티를 공통 데스크톱 셸에 구성했습니다.",
+      "계산기에 수식 입력·결과 미리보기·최근 계산 기록을 구현하고, 클립보드에는 실행 세션의 텍스트·이미지 기록, 검색·재복사·텍스트의 스니펫 저장을 연결했습니다.",
+      "Supabase 기반 Google·Apple 로그인과 스니펫·컬러 즐겨찾기 동기화를 구현했습니다. 계정별 변경 큐·재시도와 업로드·다운로드 전 덮어쓰기 확인으로 로컬 데이터와 계정 데이터의 경계를 관리했습니다.",
+      "언어·기능 표시·순서 설정과 기능별 사용 안내를 추가해 개인 작업 방식에 맞게 도구를 구성할 수 있도록 했습니다.",
+      "직접 배포판에 electron-updater 기반 업데이트 확인·다운로드·설치 흐름을 구현하고, Cloudflare R2로 업데이트 파일을 배포하는 경로를 구성했습니다.",
+    ],
+    results: [
+      "JSON·스니펫·컬러·계산기·클립보드의 다섯 가지 도구를 하나의 호출 흐름으로 통합",
+      "텍스트·이미지 클립보드 기록 재사용과 계산 결과 확인을 앱 내부에서 연결",
+      "로그인 없이 사용하는 로컬 기능과 계정별 데이터 동기화를 분리하고, 덮어쓰기 확인·변경 재시도 구현",
+      "기능별 사용 안내·개인화 설정과 직접 배포판 업데이트 경로 구현",
+    ],
+    stack: ["Electron", "React", "TypeScript", "Supabase", "electron-updater", "Cloudflare R2"],
+    links: [
+      {
+        label: "프로젝트 보기",
+        href: "https://cirrus.juo-factory.com",
+      },
+      {
+        label: "App Store 링크",
+        href: "https://apps.apple.com/kr/app/cirrus-layer/id6744146142?mt=12",
+      },
+    ],
+  },
+  {
     id: "iwill-admin",
     category: "Admin",
     platform: "Web",
@@ -644,26 +678,6 @@ export const archiveProjects = [
       "AWS S3, CloudFront, Route 53으로 인프라를 구성해 빠르게 공개하고 운영할 수 있게 만들었습니다.",
     ],
     media: communityCampaignMedia,
-  },
-  {
-    name: "ciRRus Layer: macOS 개발자 생산성 도구",
-    category: "Desktop Tool",
-    platform: "Desktop",
-    period: "",
-    tech: ["Electron", "React"],
-    summary:
-      "자주 쓰는 JSON·문구·컬러 도구를 macOS에서 바로 호출할 수 있도록 만든 개인 데스크톱 프로젝트입니다.",
-    details: [
-      "트레이에서 실행하고 전역 단축키로 호출하며 창을 항상 위에 둘 수 있는 Electron 데스크톱 셸을 구성했습니다.",
-      "React 화면에 JSON 정리, 재사용 문구 저장, 컬러 변환·즐겨찾기 기능을 묶었습니다.",
-      "기존 Flutter 버전을 Electron·React 구조로 전환해 데스크톱 호출 흐름과 도구 화면을 연결했습니다.",
-    ],
-    links: [
-      {
-        label: "이전 버전 App Store 링크",
-        href: "https://apps.apple.com/kr/app/cirrus-layer/id6744146142?mt=12",
-      },
-    ],
   },
   {
     name: "OBS 녹화 업로드·QR 공유 도구",
