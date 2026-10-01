@@ -32,6 +32,7 @@ const platformBadgeClassMap = {
   Desktop: "meta-badge--desktop",
   IoT: "meta-badge--iot",
   Embedded: "meta-badge--embedded",
+  Development: "meta-badge--desktop",
 };
 
 const skillTagToneClassMap = {
@@ -65,6 +66,7 @@ const projectTypeFilterMap = {
   Web: ["Web"],
   Mobile: ["Mobile"],
   Desktop: ["Desktop"],
+  "개발 도구": ["Development"],
   "IoT / Embedded": ["IoT", "Embedded"],
 };
 
@@ -300,7 +302,7 @@ function App() {
         <section className="hero" id="top">
           <div className="container hero__center">
             <div className="hero__intro" data-reveal>
-              <span className="badge">Frontend Engineer · Product & Service</span>
+              <span className="badge">Software Engineer · Web / Mobile / IoT</span>
               <p className="hero__identity">
                 {profile.name} · {profile.englishName}
               </p>
@@ -467,7 +469,9 @@ function App() {
                             {project.platform}
                           </span>
                           {project.period ? (
-                            <span className="case__meta-text">{project.period}</span>
+                            <span className="case__meta-text">
+                              {project.periodLabel || "재직 기간"} · {project.period}
+                            </span>
                           ) : null}
                         </div>
                         {project.links.length > 0 && (

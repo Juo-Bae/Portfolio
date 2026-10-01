@@ -3,3 +3,11 @@ dist
 .DS_Store
 
 datas/
+/tmp/
+/career/evidence/
+/.personal/goals/
+
+# Private review material and intermediate exports
+/career/interview/
+/career/channels/resume/review-notes.md
+/output/
