@@ -11,7 +11,9 @@
 | [경력·학력·자격증 기준](facts/README.md) | 회사별 기간·역할·작업 범위와 학력·자격증의 기준·미확인 사항 | 사용자 정정 우선, 변경 이력 보존 |
 | Xenterra 증빙 묶음 (`evidence/xenterra/README.md`, 로컬 전용·Git 추적 제외) | 분야별 작업 후보, 원자료, 미확인 사항 | 기존 자료를 내용 변경 없이 옮긴 로컬 스냅샷. Git 추적 제외 |
 | [이력서](channels/resume/README.md) | 이력서용 문안과 확인 사항 | 수정 작업용 문안. 외부 미게시 |
-| [이력서 릴리스](releases/resume/README.md) | 날짜별 확정본과 최신 제출용 PDF | 2026-10-01 재직 기간 정정본. 로컬 웹 반영, 외부 미게시 |
+| [이력서 릴리스](releases/resume/README.md) | 최신 원고와 제출용 PDF | 2026-10-01 재직 기간 정정본. 로컬 웹 반영, 외부 미게시 |
+| [정기 이력 관리](maintenance.md) | 토요일 활동 수집·월초 공동 검토·확정 변경분 반영·검증 | 운영 절차와 빈 기록 양식. 예약 실행·외부 반영 권한은 포함하지 않음 |
+| [구직 플랫폼 운영](platforms/README.md) | 리멤버·원티드·그룹바이·LinkedIn 접근·관리 절차 | 운영 정의 문서. 계정별 반영 상태는 각 문서 참조 |
 | [LinkedIn](channels/linkedin/README.md) | 프로필·경력 설명 문안 | 작업 안내만 있음 |
 | [GitHub](channels/github/README.md) | 프로필 소개·프로젝트 설명 문안 | 작업 안내만 있음 |
 | [웹 표시 데이터](../src/portfolioData.js) | 현재 포트폴리오 웹의 표시 내용 | 실행 중인 웹 데이터. 공통 정본 스키마는 아님 |

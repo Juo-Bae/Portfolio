@@ -14,7 +14,7 @@ career/                 경력 자료의 출처 안내와 채널별 작업 공�
   channels/resume/      이력서용 문안 작업 공간
   channels/linkedin/    LinkedIn용 문안 작업 공간
   channels/github/      GitHub 프로필용 문안 작업 공간
-  releases/resume/      이력서 날짜별 확정본과 최신 제출본
+  releases/resume/      최신 이력서 원고와 제출본
 output/                 PDF 조판 중간 산출물 (Git 추적 제외)
 datas/                  기존 로컬 자료 (Git 추적 제외)
 tmp/                    임시 작업 공간 (Git 추적 제외)

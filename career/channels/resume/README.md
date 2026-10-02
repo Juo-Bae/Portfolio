@@ -6,7 +6,7 @@
 - [최신 제출용 PDF](../../releases/resume/latest/soonho-bae-resume.pdf)
 - [최신 이력서 문안](../../releases/resume/latest/resume.md)
 - [릴리스 이력](../../releases/resume/README.md)
-- [수정 작업용 문안](resume-draft.md)
+- [수정 기준 원고](../../releases/resume/latest/resume.md)
 - 기여 범위·근거·남은 확인 사항 (`review-notes.md`, 로컬 전용·Git 추적 제외)
 
 1. [경력 자료 안내](../../README.md)에서 출처와 미확인 사항을 확인합니다.
