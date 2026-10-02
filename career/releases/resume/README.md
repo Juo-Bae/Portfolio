@@ -1,16 +1,11 @@
-# 이력서 릴리스
+# 최신 이력서
 
-확정한 로컬 제출본을 날짜별로 보관합니다. `output/`의 PDF는 조판 중간 산출물이며, 제출할 파일은 아래 `latest/` 경로에서 가져옵니다. 릴리스 파일은 포트폴리오 웹이나 외부 프로필에 자동으로 게시되지 않습니다.
+현재 사용할 최신 이력서만 보관합니다.
 
-| 버전 | 문안 | PDF |
-|---|---|---|
-| 최신 (2026-10-01 · 재직 기간 정정) | [resume.md](latest/resume.md) | [soonho-bae-resume.pdf](latest/soonho-bae-resume.pdf) |
-| 2026-10-01 재직 기간 정정 | [resume.md](2026-10-01-corrected/resume.md) | [soonho-bae-resume.pdf](2026-10-01-corrected/soonho-bae-resume.pdf) |
-| 2026-10-01 재직 기간 통일 | [resume.md](2026-10-01/resume.md) | [soonho-bae-resume.pdf](2026-10-01/soonho-bae-resume.pdf) |
-| 2026-09-30 경력 중심 보관본 | [resume.md](2026-09-30-career-only/resume.md) | [soonho-bae-resume.pdf](2026-09-30-career-only/soonho-bae-resume.pdf) |
-| 2026-09-30 개인 프로젝트 보관본 | [resume.md](2026-09-30-personal-projects/resume.md) | [soonho-bae-resume.pdf](2026-09-30-personal-projects/soonho-bae-resume.pdf) |
-| 2026-09-30 기존 보관본 | [resume.md](2026-09-30/resume.md) | [soonho-bae-resume.pdf](2026-09-30/soonho-bae-resume.pdf) |
+- [최신 원고](latest/resume.md)
+- [최신 제출용 PDF](latest/soonho-bae-resume.pdf)
+- [웹 다운로드 PDF](../../../public/media/resume.pdf): 최신 제출용 PDF와 동일한 파일
 
-다음 릴리스를 만들 때는 새 날짜 경로에 검토한 문안과 PDF를 보관한 뒤 `latest/`를 그 파일들과 동일한 내용으로 갱신합니다. 기존 날짜별 보관본은 수정하지 않습니다.
+2026-10-01 사용자 요청으로 날짜별 이전 버전, 원본 이력서 PDF와 초안·중간 산출물을 삭제했습니다. 최신 원고와 PDF의 내용은 변경하지 않았습니다. 이후 이력서 수정도 `latest/`를 기준으로 진행합니다.
 
-시스네트정보는 사용자 확인에 따라 최신 정정본에서 `2017.07 - 2019.12`로 표기한다. 과거 보관본의 `2020.01 - 2020.10`은 실제 재직하지 않은 오기이며, 과거 파일은 이력 보존을 위해 수정하지 않는다.
+시스네트정보의 확정 재직 기간은 `2017.07 - 2019.12`입니다. 경력 사실과 정정 근거는 [기준 문서](../../facts/README.md)를 확인합니다.
